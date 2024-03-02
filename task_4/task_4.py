@@ -17,7 +17,13 @@ file_path = "task_4\links.parquet"
 df = pq.read_table(source =file_path, columns=["URL"]).to_pandas()
 
 def download_image(url,index,folder_path ="task_4\downloads" ):
-    image_path = f"image__{index}.png"
+    os.makedirs(folder_path,exist_ok=True)
+    URL = url.split("/")[-1]
+    extension = URL.split("?")[0]
+    file_type = extension.split(".")[-1]
+    if(file_type==""):
+        file_type="png"
+    image_path = f"image_{index}.{file_type}"
     image_path = os.path.join(folder_path,image_path)
     try:
         response = requests.get(url=url)
@@ -25,6 +31,8 @@ def download_image(url,index,folder_path ="task_4\downloads" ):
             with open(image_path,'wb') as file:
                 file.write(response.content)
                 print(image_path,"Saved")
+        else:
+            print(f"Failed to download {url}, status code: {response.status_code}")
     except Exception as e:
             print(f"An error occurred: {e}")
 
