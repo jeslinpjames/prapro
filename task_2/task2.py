@@ -22,6 +22,6 @@ print("Random array : ",arr[0][:10])
 byte_arr = arr.tobytes()
 print("Byte array = ", byte_arr[:10])
 
-print(arr[0][0].dtype)
-recreated_arr = np.frombuffer(byte_arr,dtype=np.float64).reshape(1000,1000)
+arr_type = arr.dtype
+recreated_arr = np.frombuffer(byte_arr,dtype=arr_type).reshape(1000,1000)
 print("Recreated array :",recreated_arr[0][:10])
