@@ -13,10 +13,10 @@
 import pyarrow.parquet as pq
 import requests
 import os
-file_path = "task_4\links.parquet"
+file_path = "downloads\links.parquet"
 df = pq.read_table(source =file_path, columns=["URL"]).to_pandas()
 
-def download_image(url,index,folder_path ="downloads" ):
+def download_image(url,index,folder_path ="downloads/imgs" ):
     os.makedirs(folder_path,exist_ok=True)
     URL = url.split("/")[-1]
     extension = URL.split("?")[0]
