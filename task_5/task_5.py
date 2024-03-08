@@ -28,7 +28,7 @@ class Downloader:
              stop = key.stop
              path = self.download_images(start,stop+1)
          return path
-    def download_image(self,index: int,folder_path ="task_4\downloads" ):
+    def download_image(self,index: int,folder_path ="downloads\imgs" ):
         url = self.df.iloc[index]["URL"]
         print(url)
         os.makedirs(folder_path,exist_ok=True)
@@ -59,7 +59,7 @@ class Downloader:
 
   
 # Driver code 
-file_path = "task_4\links.parquet"
+file_path = "downloads\links.parquet"
 test = Downloader(file_path) 
 path = test[5]
 path2 = test[5:10] 
