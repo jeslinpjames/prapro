@@ -45,11 +45,12 @@ class Downloader:
                 with open(image_path,'wb') as file:
                     file.write(response.content)
                     print(image_path,"Saved")
+                    return image_path
             else:
                 print(f"Failed to download {url}, status code: {response.status_code}")
         except Exception as e:
                 print(f"An error occurred: {e}")
-        return image_path
+        return "Download Failed"
     def download_images(self,start:int,stop:int):
         img_paths=[]
         for i in range(start,stop):
