@@ -25,7 +25,7 @@ class Downloader:
              stop = key.stop
              path = self.download_images(start,stop+1)
          return path
-    def download_image(self,index: int,folder_path ="downloads\imgs" ):
+    def download_image(self,index: int,folder_path ="../downloads/imgs" ):
         url = self.df.iloc[index]["URL"]
         print(url)
         os.makedirs(folder_path,exist_ok=True)
@@ -42,11 +42,12 @@ class Downloader:
                 with open(image_path,'wb') as file:
                     file.write(response.content)
                     print(image_path,"Saved")
+                    return image_path
             else:
                 print(f"Failed to download {url}, status code: {response.status_code}")
         except Exception as e:
                 print(f"An error occurred: {e}")
-        return image_path
+        return "Download Failed!"
     def download_images(self,start:int,stop:int):
         img_paths=[]
         for i in range(start,stop):
@@ -56,7 +57,7 @@ class Downloader:
 
   
 # Driver code 
-file_path = "downloads\links.parquet"
+file_path = "../downloads/links.parquet"
 test = Downloader(file_path) 
 path = test[5]
 path2 = test[5:2000] 
