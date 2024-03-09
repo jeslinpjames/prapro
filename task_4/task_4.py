@@ -31,10 +31,12 @@ def download_image(url,index,folder_path ="downloads/imgs" ):
             with open(image_path,'wb') as file:
                 file.write(response.content)
                 print(image_path,"Saved")
+                return image_path
         else:
             print(f"Failed to download {url}, status code: {response.status_code}")
     except Exception as e:
             print(f"An error occurred: {e}")
+    return "Download Failed"
 
 if __name__ == "__main__":
     n = int(input("Enter the number of files to download : "))
@@ -43,6 +45,6 @@ if __name__ == "__main__":
         if(i==n):
             break
         else:
-            download_image(url,index)
+            img_path = download_image(url,index)
             i+=1
             
