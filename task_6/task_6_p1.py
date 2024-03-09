@@ -50,17 +50,22 @@ class Downloader:
         return "Download Failed!"
     def download_images(self,start:int,stop:int):
         img_paths=[]
+        futures = []
         for i in range(start,stop):
-            img_path = self.executor.submit(self.download_image,i)
+            future = self.executor.submit(self.download_image,i)
+            futures.append(future)
+        for future in futures:
+            img_path = future.result()
             img_paths.append(img_path)
         return img_paths
 
   
 # Driver code 
 file_path = "../downloads/links.parquet"
-test = Downloader(file_path) 
-path = test[5]
-path2 = test[5:2000] 
+if __name__ == "__main__":
+    test = Downloader(file_path) 
+    path = test[5]
+    path2 = test[5:2000] 
 
 
 
