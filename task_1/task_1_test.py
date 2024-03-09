@@ -8,7 +8,3 @@ def test_var2():
 
 def test_var3():
     assert var3 == "Hello World"
-
-test_var1()
-test_var2()
-test_var3()

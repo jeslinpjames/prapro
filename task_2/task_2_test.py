@@ -16,7 +16,3 @@ def test_type():
     assert recreated_arr.dtype == np.float64
     assert isinstance(byte_arr,bytes) == True
 
-test_time()
-compare_arrays()
-test_shape()
-test_type()
