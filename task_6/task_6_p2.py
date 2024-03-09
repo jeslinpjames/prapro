@@ -27,21 +27,34 @@ while True:
 
     if frame_count % 100 == 0:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        data = pytesseract.image_to_data(gray,output_type=pytesseract.Output.DICT)
+        data = pytesseract.image_to_data(gray, output_type=pytesseract.Output.DICT)
         for i in range(len(data["text"])):
-            if int(data["conf"][i])>60:
-                (x, y, w, h) = (data["left"][i], data["top"][i], data["width"][i], data["height"][i])
+            if int(data["conf"][i]) > 60:
+                (x, y, w, h) = (
+                    data["left"][i],
+                    data["top"][i],
+                    data["width"][i],
+                    data["height"][i],
+                )
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 text = data["text"][i]
                 if text and text.strip():
                     print(text)
-                    cv2.putText(frame, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
-        cv2.imshow('Text Extraction', frame)       
+                    cv2.putText(
+                        frame,
+                        text,
+                        (x, y - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        0.9,
+                        (0, 255, 0),
+                        2,
+                    )
+        cv2.imshow("Text Extraction", frame)
 
-    if cv2.getWindowProperty('Text Extraction', cv2.WND_PROP_VISIBLE) < 1:
+    if cv2.getWindowProperty("Text Extraction", cv2.WND_PROP_VISIBLE) < 1:
         break
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord("q"):
         break
 
 cap.release()
