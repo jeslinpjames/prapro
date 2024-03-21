@@ -26,14 +26,23 @@ def feed_forward(W, b, x):
 def loss_function(y_pred, y):
     return np.mean((y_pred - y) ** 2)
 
+def plot_fit(x, y, W, b, iterations, plot_interval=30):
+    fig, ax = plt.subplots()
+    ax.plot(x.flatten(), y.flatten(), color="blue")
+    line, = ax.plot([], [], color="red")
+    for i in range(iterations):
+        y_pred = feed_forward(W, b, x)
+        if i % plot_interval == 0:
+            line.set_data(x.flatten(), y_pred)
+            ax.set_title(f"Iteration {i}")
+            fig.canvas.draw()
+            plt.pause(0.2)
+    plt.show()
 
 def gradient_descent(x, y, learning_rate, iterations):
     W, b = init_params()
     loss_history = []
-    fig, ax = plt.subplots()
-    ax.plot(x.flatten(), y.flatten(), color="blue")
-    (line,) = ax.plot([], [], color="red")
-    for i in range(iterations):
+    for _ in range(iterations):
         y_pred = feed_forward(W, b, x)
         loss = loss_function(y_pred, y)
         loss_history.append(loss)
@@ -41,11 +50,6 @@ def gradient_descent(x, y, learning_rate, iterations):
         dl_db = -2 / len(x) * np.sum(y - y_pred)
         W = W - learning_rate * dl_dW
         b = b - learning_rate * dl_db
-        if i % 30 == 0:
-            line.set_data(x.flatten(), y_pred)
-            ax.set_title(f"Iteration {i}")
-            fig.canvas.draw()
-            plt.pause(0.2)
     return W, b, loss_history
 
 
@@ -58,6 +62,8 @@ if __name__ == "__main__":
     iterations = 1000
 
     W, b, loss_history = gradient_descent(x, y, learning_rate, iterations)
+    
+    plot_fit(x, y, W, b, iterations)
 
     # Plot the final fit
     plt.figure()
