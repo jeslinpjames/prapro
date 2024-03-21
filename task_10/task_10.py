@@ -26,10 +26,11 @@ def feed_forward(W, b, x):
 def loss_function(y_pred, y):
     return np.mean((y_pred - y) ** 2)
 
+
 def plot_fit(x, y, W, b, iterations, plot_interval=30):
     fig, ax = plt.subplots()
     ax.plot(x.flatten(), y.flatten(), color="blue")
-    line, = ax.plot([], [], color="red")
+    (line,) = ax.plot([], [], color="red")
     for i in range(iterations):
         y_pred = feed_forward(W, b, x)
         if i % plot_interval == 0:
@@ -38,6 +39,7 @@ def plot_fit(x, y, W, b, iterations, plot_interval=30):
             fig.canvas.draw()
             plt.pause(0.2)
     plt.show()
+
 
 def gradient_descent(x, y, learning_rate, iterations):
     W, b = init_params()
@@ -62,7 +64,7 @@ if __name__ == "__main__":
     iterations = 1000
 
     W, b, loss_history = gradient_descent(x, y, learning_rate, iterations)
-    
+
     plot_fit(x, y, W, b, iterations)
 
     # Plot the final fit
