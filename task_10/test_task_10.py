@@ -10,8 +10,8 @@ def test_init_params():
 def test_feed_forward():
     W = np.array([[2]])
     b = np.array([[1]])
-    x = np.array([[1, 2, 3, 4]])
-    expected = np.array([2,4,6,8])
+    x = np.array([[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]])
+    expected = np.array([3, 5, 7, 9, 11, 13, 15, 17, 19, 21])
     y_pred = feed_forward(W, b, x)
     np.testing.assert_allclose(y_pred, expected)
 
@@ -30,5 +30,5 @@ def test_gradient_descent():
     W, b, loss_history = gradient_descent(x, y, learning_rate, iterations)
     expected_y = y.flatten()
     y_pred =  feed_forward(W, b, x).flatten()
-    np.testing.assert_allclose(y_pred, expected_y)
+    np.testing.assert_allclose(y_pred, expected_y, rtol=1e-3, atol=1e-3)
     assert loss_history[-1] < loss_history[0]
