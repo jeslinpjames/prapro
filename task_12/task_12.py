@@ -8,14 +8,24 @@
 # argparse
 import argparse
 
+
 def calcs():
-    parser = argparse.ArgumentParser(prog="Calculator,",description='Calculate the sum and product of numbers',epilog='Enjoy the program! :)')
-    parser.add_argument('nums', type=float, help='The numbers to be added or multiplied ', nargs='+')
+    parser = argparse.ArgumentParser(
+        prog="Calculator,",
+        description="Calculate the sum and product of numbers",
+        epilog="Enjoy the program! :)",
+    )
+    parser.add_argument(
+        "nums", type=float, help="The numbers to be added or multiplied ", nargs="+"
+    )
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("-s","--sum", help="Sum of two numbers",action='store_true')
-    group.add_argument("-p","--product", help="Product of two numbers",action='store_true')
+    group.add_argument("-s", "--sum", help="Sum of two numbers", action="store_true")
+    group.add_argument(
+        "-p", "--product", help="Product of two numbers", action="store_true"
+    )
     args = parser.parse_args()
     return args
+
 
 if __name__ == "__main__":
     args = calcs()
