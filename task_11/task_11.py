@@ -11,17 +11,17 @@
 # Multiprocessing start methods: spawn, fork, forkserver
 
 from multiprocessing import shared_memory
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, as_completed
 import numpy as np
 
 
-def fill_arr(sm_name,shape,slice):
-    start = slice.start
-    end = slice.stop
+def fill_arr(sm_name,shape,slice_range):
+    start = slice_range.start
+    end = slice_range.stop
     len = end - start
     sm = shared_memory.SharedMemory(name=sm_name)
     arr = np.ndarray(shape,dtype=np.int16,buffer=sm.buf)
-    arr[slice] = np.random.randint(0,100,len,dtype=np.int16)
+    arr[slice_range] = np.random.randint(0,100,len,dtype=np.int16)
     sm.close()
 
 def runProcesses(size,p,sm_name="shared_arr"):
@@ -36,15 +36,17 @@ def runProcesses(size,p,sm_name="shared_arr"):
             start = i
             end = i+chunks if i+chunks<size else size
             futures.append(executor.submit(fill_arr,sm_name,shape,slice(start,end)))
-    for future in futures:
+    for future in as_completed(futures):
         future.result()
-    print(arr)
+    r_arr = np.zeros_like(arr)
+    r_arr[:] = arr[:]
     shared_arr.close()
-    shared_arr.unlink()
-    
+    shared_arr.unlink() 
+    return r_arr
 
 if __name__ == "__main__":
     size = int(input("Enter the size of the array: "))
     p =int(input("Enter the number of processes: "))
-    runProcesses(size,p)
-    
+    arr = runProcesses(size,p)
+    print(arr)
+
